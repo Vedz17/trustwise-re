@@ -37,7 +37,7 @@ function App() {
     return (
       <div className="loading-screen">
         <div className="loading-spinner"></div>
-        <p>Loading Money Quest...</p>
+        <p>Loading Financial Quest...</p>
       </div>
     );
   }
