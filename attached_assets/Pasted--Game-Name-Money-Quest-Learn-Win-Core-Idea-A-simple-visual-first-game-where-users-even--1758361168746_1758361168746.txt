@@ -1,0 +1,97 @@
+🎮 Game Name: Money Quest – Learn & Win
+🌟 Core Idea
+
+A simple, visual-first game where users (even if illiterate) can play levels about financial literacy by tapping, dragging, or choosing pictures. Each level is fun, short, but slightly harder than before. Winning gives coins, stars, and small surprises.
+
+🏆 Game Flow
+1. Level Selection Screen
+
+Shows a path (like Candy Crush or Subway Surfers map).
+
+Levels 1 → 10 are visible. Locked levels are greyed out with a lock icon.
+
+Each completed level gives stars and unlocks the next one.
+
+2. Gameplay per Level
+
+👉 Level 1: Saving or Spending
+
+Show 2 big pictures:
+
+Piggy bank 🐷 (saving)
+
+Shopping bag 🛍 (spending)
+
+User taps one.
+
+If they tap piggy bank → 🎉 fireworks + coins shower.
+
+If wrong, friendly popup says: "Try again! Saving helps you win more later."
+
+👉 Level 2: Needs vs Wants
+
+Show multiple icons: Food 🍲, House 🏠, Mobile 📱, Gold ring 💍.
+
+User drags “needs” into the ✅ basket and “wants” into ❌ basket.
+
+Reward animation: stars + happy sound.
+
+👉 Level 3: Good Loan vs Bad Loan
+
+2 characters appear:
+
+Farmer taking loan for seeds 🌱
+
+Person taking loan for luxury car 🚗
+
+User chooses the good loan.
+
+Reward: extra 5 coins.
+
+👉 Level 4: Avoiding Scams
+
+A popup man offers: "Give me 100, I’ll give you 1000 tomorrow!" (cartoon scammer).
+
+Option A: Believe him 🤔
+
+Option B: Say “No, it’s a scam” 🚫
+
+Choosing scammer → lose 1 heart ❤️.
+
+Choosing correctly → bonus treasure chest 🎁.
+
+👉 Level 5–10: Progressive Challenges
+
+Mini quizzes with pictures.
+
+Drag & drop matching (e.g., ATM card → ATM machine, Bank → Savings).
+
+Timed challenge (answer in 10 seconds).
+
+Memory match game with finance icons (coin, rupee note, bank, UPI QR, etc.).
+
+🎉 Winning Features
+
+Stars & Coins System
+
+Each correct answer = ⭐ + 💰 coins.
+
+Coins unlock avatar clothes (hat 🎩, shirt 👕, etc.).
+
+Surprise Chests
+
+Every 3 levels = 🎁 chest with bonus coins.
+
+Leaderboard (Local Only)
+
+Shows top players in village/town with fun names like “Money Master” or “Smart Saver.”
+
+Daily Bonus
+
+Each day user logs in = spins a wheel 🎡 for free coins.
+
+Fun Animations
+
+Fireworks, coin showers, claps 👏 after every win.
+
+Sad cartoon face 😔 if wrong, but always encouraging: “Don’t worry, you’ll get it!”
