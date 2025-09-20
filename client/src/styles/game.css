@@ -80,33 +80,202 @@
   color: #ccc;
 }
 
-/* Level Select Styles */
-.level-select {
+/* Challenge Select Styles */
+.challenge-select {
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 2rem;
   overflow-y: auto;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
 }
 
-.level-select-header {
+.challenge-select-header {
   text-align: center;
-  margin-bottom: 2rem;
-  color: white;
+  margin-bottom: 3rem;
+  color: #1565c0;
 }
 
 .game-title {
   font-size: 3rem;
   font-weight: bold;
   margin: 0;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  color: #1565c0;
+  text-shadow: none;
 }
 
 .game-subtitle {
-  font-size: 1.2rem;
-  margin: 0.5rem 0 0 0;
-  opacity: 0.9;
+  font-size: 1.4rem;
+  margin: 0.5rem 0;
+  color: #2e7d32;
+  font-weight: 600;
+}
+
+.challenge-subtitle {
+  font-size: 1rem;
+  margin: 1rem 0 0 0;
+  color: #666;
+  font-weight: normal;
+}
+
+.challenges-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  gap: 2rem;
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+.challenge-card {
+  background: rgba(255, 255, 255, 0.95);
+  border: 2px solid #e3f2fd;
+  border-radius: 15px;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-height: 280px;
+}
+
+.challenge-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(21, 101, 192, 0.2);
+  border-color: #1565c0;
+}
+
+.challenge-card.selected {
+  border-color: #1565c0;
+  background: #e3f2fd;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(21, 101, 192, 0.3);
+}
+
+.challenge-card.completed {
+  border-color: #2e7d32;
+  background: linear-gradient(145deg, #e8f5e8, #f1f8e9);
+}
+
+.challenge-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  background: #e3f2fd;
+  border-radius: 12px;
+  color: #1565c0;
+  margin-bottom: 0.5rem;
+}
+
+.challenge-card.completed .challenge-icon {
+  background: #e8f5e8;
+  color: #2e7d32;
+}
+
+.challenge-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.challenge-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 0;
+  color: #1565c0;
+}
+
+.challenge-card.completed .challenge-title {
+  color: #2e7d32;
+}
+
+.challenge-description {
+  font-size: 0.9rem;
+  color: #666;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.challenge-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.difficulty-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.time-estimate {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.challenge-rewards {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.reward-item {
+  font-size: 0.9rem;
+  color: #666;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.reward-badge {
+  font-size: 0.85rem;
+  color: #1565c0;
+  font-weight: 600;
+}
+
+.completion-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #2e7d32;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.completion-star {
+  color: #ffa000;
+}
+
+.challenge-action {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.start-challenge-button {
+  background: linear-gradient(135deg, #1565c0, #1976d2);
+  border: none;
+  color: white;
+  font-size: 1.1rem;
+  padding: 1rem 2rem;
+  border-radius: 25px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.start-challenge-button:hover {
+  background: linear-gradient(135deg, #0d47a1, #1565c0);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(21, 101, 192, 0.3);
 }
 
 .level-map {
@@ -940,9 +1109,14 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .level-path {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
+  .challenges-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .challenge-card {
+    min-height: 240px;
+    padding: 1.25rem;
   }
   
   .choices-container {
@@ -965,11 +1139,18 @@
   }
   
   .game-title {
-    font-size: 2rem;
+    font-size: 2.5rem;
   }
   
-  .level-container,
-  .level-select {
+  .game-subtitle {
+    font-size: 1.2rem;
+  }
+  
+  .challenge-select {
+    padding: 1.5rem;
+  }
+  
+  .level-container {
     padding: 1rem;
   }
   

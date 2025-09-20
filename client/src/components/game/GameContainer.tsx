@@ -11,35 +11,42 @@ import { GameHeader } from "./ui/GameHeader";
 import { useGameProgress } from "../../lib/stores/useGameProgress";
 
 export function GameContainer() {
-  const [currentScreen, setCurrentScreen] = useState<'levelSelect' | 'game' | 'avatar' | 'dailyBonus'>('levelSelect');
-  const [currentLevel, setCurrentLevel] = useState(1);
+  const [currentScreen, setCurrentScreen] = useState<'challengeSelect' | 'challenge' | 'avatar' | 'dailyBonus'>('challengeSelect');
+  const [currentChallenge, setCurrentChallenge] = useState(1);
   const { coins, stars, completedLevels } = useGameProgress();
+  
+  // Map completed levels to completed challenges for now (temporary compatibility)
+  const completedChallenges = completedLevels || [];
 
-  const handleLevelSelect = (level: number) => {
-    setCurrentLevel(level);
-    setCurrentScreen('game');
+  const handleChallengeSelect = (challengeId: number) => {
+    setCurrentChallenge(challengeId);
+    setCurrentScreen('challenge');
   };
 
-  const handleLevelComplete = () => {
-    setCurrentScreen('levelSelect');
+  const handleChallengeComplete = () => {
+    setCurrentScreen('challengeSelect');
   };
 
   const handleBackToMenu = () => {
-    setCurrentScreen('levelSelect');
+    setCurrentScreen('challengeSelect');
   };
 
-  const renderCurrentLevel = () => {
-    switch (currentLevel) {
+  const renderCurrentChallenge = () => {
+    switch (currentChallenge) {
       case 1:
-        return <Level1 onComplete={handleLevelComplete} onBack={handleBackToMenu} />;
+        return <Level1 onComplete={handleChallengeComplete} onBack={handleBackToMenu} />;
       case 2:
-        return <Level2 onComplete={handleLevelComplete} onBack={handleBackToMenu} />;
+        return <Level2 onComplete={handleChallengeComplete} onBack={handleBackToMenu} />;
       case 3:
-        return <Level3 onComplete={handleLevelComplete} onBack={handleBackToMenu} />;
+        return <Level3 onComplete={handleChallengeComplete} onBack={handleBackToMenu} />;
       case 4:
-        return <Level4 onComplete={handleLevelComplete} onBack={handleBackToMenu} />;
+        return <Level4 onComplete={handleChallengeComplete} onBack={handleBackToMenu} />;
+      case 5:
+        return <GenericLevel level={currentChallenge} onComplete={handleChallengeComplete} onBack={handleBackToMenu} />;
+      case 6:
+        return <GenericLevel level={currentChallenge} onComplete={handleChallengeComplete} onBack={handleBackToMenu} />;
       default:
-        return <GenericLevel level={currentLevel} onComplete={handleLevelComplete} onBack={handleBackToMenu} />;
+        return <GenericLevel level={currentChallenge} onComplete={handleChallengeComplete} onBack={handleBackToMenu} />;
     }
   };
 
@@ -50,18 +57,18 @@ export function GameContainer() {
         stars={stars}
         onAvatarClick={() => setCurrentScreen('avatar')}
         onDailyBonusClick={() => setCurrentScreen('dailyBonus')}
-        showBackButton={currentScreen !== 'levelSelect'}
+        showBackButton={currentScreen !== 'challengeSelect'}
         onBackClick={handleBackToMenu}
       />
       
-      {currentScreen === 'levelSelect' && (
+      {currentScreen === 'challengeSelect' && (
         <LevelSelect
-          completedLevels={completedLevels}
-          onLevelSelect={handleLevelSelect}
+          completedChallenges={completedChallenges}
+          onChallengeSelect={handleChallengeSelect}
         />
       )}
       
-      {currentScreen === 'game' && renderCurrentLevel()}
+      {currentScreen === 'challenge' && renderCurrentChallenge()}
       
       {currentScreen === 'avatar' && (
         <AvatarCustomizer onBack={handleBackToMenu} />
