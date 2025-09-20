@@ -5,7 +5,10 @@ import { getLocalStorage, setLocalStorage } from "../utils";
 interface GameProgress {
   coins: number;
   stars: number;
-  completedLevels: number[];
+  completedLevels: number[]; // Legacy support
+  completedChallenges: number[];
+  trustTokens: number;
+  earnedBadges: string[];
   currentLevel: number;
   ownedItems: string[];
   equippedItems: {
@@ -18,7 +21,10 @@ interface GameProgress {
   addCoins: (amount: number) => void;
   spendCoins: (amount: number) => boolean;
   addStars: (amount: number) => void;
+  addTrustTokens: (amount: number) => void;
+  awardBadge: (badge: string) => void;
   completeLevel: (level: number, starsEarned: number) => void;
+  completeChallenge: (challengeId: number, rewards: { coins: number; trustTokens: number; badge?: string }) => void;
   buyItem: (itemId: string, cost: number) => void;
   equipItem: (itemId: string, type: string) => void;
   resetProgress: () => void;
@@ -28,6 +34,9 @@ const initialState = {
   coins: 0,
   stars: 0,
   completedLevels: [],
+  completedChallenges: [],
+  trustTokens: 0,
+  earnedBadges: [],
   currentLevel: 1,
   ownedItems: [],
   equippedItems: {},
@@ -67,6 +76,25 @@ export const useGameProgress = create<GameProgress>()(
       });
     },
     
+    addTrustTokens: (amount) => {
+      set((state) => {
+        const newState = { trustTokens: state.trustTokens + amount };
+        setLocalStorage('gameProgress', { ...state, ...newState });
+        return newState;
+      });
+    },
+    
+    awardBadge: (badge) => {
+      set((state) => {
+        if (!state.earnedBadges.includes(badge)) {
+          const newState = { earnedBadges: [...state.earnedBadges, badge] };
+          setLocalStorage('gameProgress', { ...state, ...newState });
+          return newState;
+        }
+        return state;
+      });
+    },
+    
     completeLevel: (level, starsEarned) => {
       set((state) => {
         const newCompletedLevels = state.completedLevels.includes(level) 
@@ -80,6 +108,28 @@ export const useGameProgress = create<GameProgress>()(
           stars: state.stars + starsEarned,
           coins: state.coins + coinsEarned,
           currentLevel: Math.max(state.currentLevel, level + 1),
+        };
+        
+        setLocalStorage('gameProgress', { ...state, ...newState });
+        return newState;
+      });
+    },
+    
+    completeChallenge: (challengeId, rewards) => {
+      set((state) => {
+        const newCompletedChallenges = state.completedChallenges.includes(challengeId)
+          ? state.completedChallenges
+          : [...state.completedChallenges, challengeId];
+        
+        const newBadges = rewards.badge && !state.earnedBadges.includes(rewards.badge)
+          ? [...state.earnedBadges, rewards.badge]
+          : state.earnedBadges;
+        
+        const newState = {
+          completedChallenges: newCompletedChallenges,
+          coins: state.coins + rewards.coins,
+          trustTokens: state.trustTokens + rewards.trustTokens,
+          earnedBadges: newBadges,
         };
         
         setLocalStorage('gameProgress', { ...state, ...newState });

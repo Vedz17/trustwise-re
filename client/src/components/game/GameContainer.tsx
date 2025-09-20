@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { LevelSelect } from "./LevelSelect";
-import { Level1 } from "./levels/Level1";
+import { FestivalBudgeting } from "./challenges/FestivalBudgeting";
 import { Level2 } from "./levels/Level2";
 import { Level3 } from "./levels/Level3";
 import { Level4 } from "./levels/Level4";
@@ -13,10 +13,10 @@ import { useGameProgress } from "../../lib/stores/useGameProgress";
 export function GameContainer() {
   const [currentScreen, setCurrentScreen] = useState<'challengeSelect' | 'challenge' | 'avatar' | 'dailyBonus'>('challengeSelect');
   const [currentChallenge, setCurrentChallenge] = useState(1);
-  const { coins, stars, completedLevels } = useGameProgress();
+  const { coins, stars, trustTokens, earnedBadges, completedChallenges, completedLevels } = useGameProgress();
   
-  // Map completed levels to completed challenges for now (temporary compatibility)
-  const completedChallenges = completedLevels || [];
+  // Use completed challenges primarily, fall back to levels for backward compatibility
+  const actualCompletedChallenges = completedChallenges.length > 0 ? completedChallenges : completedLevels;
 
   const handleChallengeSelect = (challengeId: number) => {
     setCurrentChallenge(challengeId);
@@ -34,7 +34,7 @@ export function GameContainer() {
   const renderCurrentChallenge = () => {
     switch (currentChallenge) {
       case 1:
-        return <Level1 onComplete={handleChallengeComplete} onBack={handleBackToMenu} />;
+        return <FestivalBudgeting onComplete={handleChallengeComplete} onBack={handleBackToMenu} />;
       case 2:
         return <Level2 onComplete={handleChallengeComplete} onBack={handleBackToMenu} />;
       case 3:
@@ -63,7 +63,7 @@ export function GameContainer() {
       
       {currentScreen === 'challengeSelect' && (
         <LevelSelect
-          completedChallenges={completedChallenges}
+          completedChallenges={actualCompletedChallenges}
           onChallengeSelect={handleChallengeSelect}
         />
       )}
